@@ -8,14 +8,14 @@
 }
 
 .banner {
-  font-size: 56pt !important;
+  font-size: 64pt !important;
 }
 
 .description {
-  font-size: 24pt;
-  max-width: 60%;
+  font-size: 28pt;
+  max-width: 70%;
   min-width: 300px;
-  color: rgb(174, 174, 174);
+  color: rgb(212, 212, 212);
   font-weight: bold;
 }
 
@@ -24,7 +24,7 @@
   width: 400px;
   border-radius: 16px;
   font-size: 16pt;
-  background-color: rgba(91, 91, 91, 0.537);
+  background-color: rgba(199, 199, 199, 0.537);
   border: none;
   color: white;
   margin-right: 20px;
@@ -42,12 +42,16 @@
   font-weight: bold;
 }
 
+.goButton:hover {
+  background-color: rgba(0, 11, 212);
+}
+
 .attribution a {
-  font-size: 12px;
-  position: absolute;
+  font-size: 14px;
+  position: fixed;
   bottom: 0;
   right: 0;
-  color: rgb(174, 174, 174);
+  color: rgb(255, 255, 255);
   padding: 0 5px 5px 0;
   text-decoration: none;
 }

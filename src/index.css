@@ -5,11 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: hsla(234, 100%, 22%, 1);
-  background: radial-gradient(circle, hsla(234, 100%, 22%, 1) 0%, hsla(0, 0%, 0%, 1) 100%);
-  background: -moz-radial-gradient(circle, hsla(234, 100%, 22%, 1) 0%, hsla(0, 0%, 0%, 1) 100%);
-  background: -webkit-radial-gradient(circle, hsla(234, 100%, 22%, 1) 0%, hsla(0, 0%, 0%, 1) 100%);
-  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#000B71", endColorstr="#000000", GradientType=1);
+  background: url('./assests/back.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 code {
