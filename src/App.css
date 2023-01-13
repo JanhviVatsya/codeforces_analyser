@@ -1,6 +1,6 @@
 .main {
-  padding: 44px;
-  padding-left: 10%;
+  padding: 100px;
+  padding-top: 40px;
   padding-bottom: auto;
   height: 100%;
   /* width: 100%; */
@@ -24,11 +24,15 @@
   width: 400px;
   border-radius: 16px;
   font-size: 16pt;
-  background-color: rgba(199, 199, 199, 0.537);
+  background-color: rgba(199, 199, 199, 0.367);
   border: none;
   color: white;
   margin-right: 20px;
   margin-top: 20px;
+}
+
+.inputBox::placeholder {
+  color: rgba(255, 255, 255, 0.273);
 }
 
 .goButton {
