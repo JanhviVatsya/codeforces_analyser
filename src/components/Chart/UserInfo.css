@@ -10,6 +10,14 @@
     height: fit-content;
 }
 
+.separator {
+    height: 40px;
+}
+
+h3, h5 {
+    color: white;
+}
+
 .chartObject {
     color: black;
 }
