@@ -80,6 +80,9 @@ class ChartComponent extends React.Component<any, any> {
                                 },
                                 title: {
                                     display: false,
+                                },
+                                legend: {
+                                    display: false
                                 }
                             }
                         }
@@ -141,6 +144,9 @@ class ChartComponent extends React.Component<any, any> {
                                 title: {
                                     display: false,
                                 },
+                                legend: {
+                                    display: false
+                                }
                             }
                         }
                     }

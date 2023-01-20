@@ -68,7 +68,7 @@ class App extends React.Component<any, any> {
       <div className='main'>
         <div>
           <h1 className='banner'>Learn Intelligently</h1>
-          <p className='description'>Use this tool to get a detailed analysis of your progress on Codeforces and use this knowledge to learn effectively by working on the topics that the most attention.</p>
+          <p className='description'>Use this tool to get a detailed analysis of your progress on Codeforces and use this knowledge to learn effectively by working on the topics that need the most attention.</p>
           <div>
             <input type='text' className='inputBox' placeholder='User handle' onChange={this.handleInput} onKeyDown={this._handleKeyboardEvent}></input>
             <button className='goButton' onClick={this.submitUsername}>Go!</button>
