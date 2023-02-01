@@ -2,26 +2,32 @@ version: '3.9'
 
 services:
   frontend:
-    build: .
+    build: ./frontend
     ports:
-      - 8081:8000
+      - '8081:3000'
     environment:
       SERVER_HOST: server
       SERVER_PORT: 3001
-      REDIS_HOST: cache
-      REDIS_PORT: 6379
-      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81x
   server:
     build: ./backend
-    ports:
-      -"3001:3001"
-    depends_on:
-      - cache
-  cache:
-    image: redis:6.2-alpine
     restart: always
     ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-    volumes: 
-      - cache:/data
+      - '3001:3001'
+    depends_on:
+      - redis
+    environment:
+      SERVER_PORT: 3001
+      REDIS_URL: redis://redis:6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81x
+  redis:
+    image: redis:latest
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - 6379:6379
+    volumes:
+      - .db:/data
+    restart: always
+    entrypoint: redis-server --appendonly yes

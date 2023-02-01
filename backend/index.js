@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { cacheAllData, getProblem } = require('./utils/utils');
 
 const app = express();
 
@@ -9,7 +10,13 @@ app.post('/scrape', (req, res) => {
     //puppeteer stuff
 })
 
+app.get('/', async (req, res) => {
+   cacheAllData()
+   const data = await getProblem(['Graph Coloring', 'A+B?'])
+   res.send(data)
+})
 
-app.listen(3001, ()=>{
-    console.log('Server listening on port 3001')
+const port = process.env.SERVER_PORT | 3000;
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}`)
 })
