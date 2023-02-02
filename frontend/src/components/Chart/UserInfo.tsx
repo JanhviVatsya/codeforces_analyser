@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import './UserInfo.css'
-import { Bar, Bubble } from "react-chartjs-2";
+import { Bar, Chart } from "react-chartjs-2";
+import { color } from 'chart.js/helpers';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -12,6 +13,7 @@ import {
     PointElement
 } from 'chart.js';
 import autocolors from 'chartjs-plugin-autocolors';
+import { MatrixController, MatrixElement } from "chartjs-chart-matrix";
 
 ChartJS.register(
     CategoryScale,
@@ -21,7 +23,9 @@ ChartJS.register(
     Tooltip,
     Legend,
     autocolors,
-    PointElement
+    PointElement,
+    MatrixElement,
+    MatrixController
 );
 
 class ChartComponent extends React.Component<any, any> {
@@ -210,21 +214,36 @@ class ChartComponent extends React.Component<any, any> {
 
         let numericData: any[] = [];
 
+        let minR = 10000;
+        let maxR = -1;
 
         for (let i of data) {
-            let temp = {
+            let temp = {    
                 x: labelMap.get(i.x),
                 y: i.y,
-                r: i.r
+                v: i.r
             }
             numericData.push(temp);
+            maxR = Math.max(maxR, i.r)
+            minR = Math.min(minR, i.r);
         }
 
         const chartData = {
             datasets: [
                 {
                     label: "Topics, Difficulty, Number",
-                    data: numericData
+                    data: numericData,
+                    backgroundColor(context: any) {
+                        const value = context.dataset.data[context.dataIndex].v;
+                        const alpha = Math.max(0.05, Math.min(1, (value) / (maxR - minR)));
+                        return color('blue').alpha(alpha).rgbString();
+                    },
+                    borderColor(context: any) {
+                        const value = context.dataset.data[context.dataIndex].v;
+                        const alpha = Math.max(0.1, Math.min(1, (value) / (maxR - minR)));
+                        return color('darkblue').alpha(alpha).rgbString();
+                    },
+                    borderWidth: 1,
                 }
             ]
         }
@@ -232,13 +251,12 @@ class ChartComponent extends React.Component<any, any> {
         return (
             <div className="chartObject">
                 <h3>Topics, Difficulty, Number</h3>
-                <Bubble data={chartData}
+                <Chart type="matrix" data={chartData}
                     options={
                         {
                             aspectRatio: 1.5,
                             scales: {
                                 x: {
-                                    position: 'top',
                                     axis: 'x',
                                     ticks: {
                                         z: 1,
@@ -247,13 +265,17 @@ class ChartComponent extends React.Component<any, any> {
                                             return labels[index]
                                         },
                                     },
+                                    grid: {
+                                        display: false
+                                    }
                                 },
                                 y: {
                                     axis: 'y',
-                                    position: 'right',
                                     ticks: {
-                                        z: 1,
                                         stepSize: 100,
+                                    },
+                                    grid: {
+                                        display: false
                                     }
                                 }
                             },
@@ -270,31 +292,18 @@ class ChartComponent extends React.Component<any, any> {
                                 },
                                 tooltip: {
                                     callbacks: {
-                                        label: (context) => {
-                                            let label = context.dataset.label || '';
-                                            if (label) {
-                                                label += ': ';
-                                            }
-
-                                            label += `(${labels[context.parsed.x]}, ${context.parsed.y}, ${context.parsed._custom})`
-                                            return label;
+                                        label: (context: any) => {
+                                            const v = context.dataset.data[context.dataIndex];
+                                            return ['Topic: ' + labels[v.x], 'Difficulty: ' + v.y, 'Number: ' + v.v];
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                ></Bubble>
+                ></Chart>
             </div>
         )
-    }
-
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            arrayProblems: [],
-            userName: ''
-        }
     }
 
     render(): ReactNode {

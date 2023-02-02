@@ -7,6 +7,26 @@
   color: white;
 }
 
+.private {
+  margin-top: 20px;
+  font-size: 16pt;
+  background-color: rgba(88, 0, 212, 0.542);
+  border: none;
+  color: white;
+  border-radius: 16px;
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+.private:hover {
+  background-color: rgba(125, 62, 213, 0.542);
+}
+
+.active {
+  background-color: rgba(180, 0, 212, 0.542);
+  text-decoration: underline;
+}
+
 .banner {
   font-size: 64pt !important;
 }

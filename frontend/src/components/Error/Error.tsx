@@ -2,9 +2,6 @@ import React, { ReactNode } from "react";
 import './Error.css';
 
 class ErrorComponent extends React.Component <any, any> {
-    constructor(props: any){
-        super(props);
-    }
 
     render(): ReactNode {
         return (

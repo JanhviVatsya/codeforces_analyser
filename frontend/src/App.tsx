@@ -16,6 +16,8 @@ class App extends React.Component<any, any> {
       correctQuestions: [],
       errorCode: 0,
       showCharts: false,
+      private: false,
+      password: ''
     }
   }
 
@@ -45,12 +47,19 @@ class App extends React.Component<any, any> {
       })
       .catch((error) => {
         console.log(error);
-        // console.log(this.state.)
         this.setState({ errorCode: error.response.status });
       })
       .finally(() => {
         this.setState({ isLoading: false });
       })
+  }
+
+  submitUsernamePassword = (): void => {
+
+  }
+
+  togglePrivateState = (): void => {
+    this.setState({ ...this.setState, private: !this.state.private })
   }
 
   _handleKeyboardEvent = (event: any): void => {
@@ -59,8 +68,18 @@ class App extends React.Component<any, any> {
     }
   }
 
+  _handleKeyboardEventPassword = (event: any): void => {
+    if (event.key === 'Enter') {
+      this.submitUsernamePassword();
+    }
+  }
+
   handleInput = (event: any): void => {
     this.setState({ tempUserName: event.target.value });
+  }
+  
+  handlePassword = (event: any): void => {
+    this.setState({...this.state, password: event.target.value})
   }
 
   render(): ReactNode {
@@ -69,10 +88,27 @@ class App extends React.Component<any, any> {
         <div>
           <h1 className='banner'>Learn Intelligently</h1>
           <p className='description'>Use this tool to get a detailed analysis of your progress on Codeforces and use this knowledge to learn effectively by working on the topics that need the most attention.</p>
-          <div>
-            <input type='text' className='inputBox' placeholder='User handle' onChange={this.handleInput} onKeyDown={this._handleKeyboardEvent}></input>
-            <button className='goButton' onClick={this.submitUsername}>Go!</button>
-          </div>
+
+          {
+            !this.state.private &&
+            <div>
+              <input type='text' className='inputBox' placeholder='User handle' onChange={this.handleInput} onKeyDown={this._handleKeyboardEvent}></input>
+              <button className='goButton' onClick={this.submitUsername}>Go!</button>
+            </div>
+          }
+
+          {
+            this.state.private &&
+            <div>
+              <input type='text' className='inputBox' placeholder='User handle' onChange={this.handleInput} onKeyDown={this._handleKeyboardEvent}></input>
+              <input type='password' className='inputBox' placeholder='Password' onChange={this.handlePassword} onKeyDown={this._handleKeyboardEventPassword}></input>
+              <button className='goButton' onClick={this.submitUsernamePassword}>Go!</button>
+            </div>
+          }
+
+          <button className={'private'} onClick={this.togglePrivateState}>See {!this.state.private ? 'private' : 'public '} submissions</button>
+
+
           <div className='attribution'>
             <a target='_blank' rel='noreferrer' href='https://github.com/Lawful2002'>&copy; Harshvardhan Singh</a>
           </div>
