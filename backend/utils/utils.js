@@ -43,7 +43,6 @@ module.exports.cacheAllData = async function() {
 module.exports.getProblems = function(name) {
     return new Promise(async (resolve, reject) => {
         client.mGet(name, (err, obj) => {
-            console.log(obj)
             resolve(obj)
         })
     })

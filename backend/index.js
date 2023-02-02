@@ -1,5 +1,5 @@
 const express = require('express');
-const { cacheAllData, getProblem } = require('./utils/utils');
+const { cacheAllData, getProblems } = require('./utils/utils');
 
 const app = express();
 
@@ -10,10 +10,13 @@ app.post('/scrape', (req, res) => {
     //puppeteer stuff
 })
 
+app.get('/cache_data', (req, res) => {
+    cacheAllData();
+    res.redirect('/')
+})
+
 app.get('/', async (req, res) => {
-   cacheAllData()
-   const data = await getProblem(['Graph Coloring', 'A+B?'])
-   res.send(data)
+   res.send('Caching and Scraping Server')
 })
 
 const port = process.env.SERVER_PORT | 3000;
