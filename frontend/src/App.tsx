@@ -4,6 +4,7 @@ import './App.css';
 import ErrorComponent from './components/Error/Error';
 import Loading from './components/Loading/Loading';
 import UserInfo from './components/Chart/UserInfo';
+const NodeRSA = require('node-rsa');
 
 class App extends React.Component<any, any> {
 
@@ -55,6 +56,26 @@ class App extends React.Component<any, any> {
   }
 
   submitUsernamePassword = (): void => {
+    this.setState({ ...this.state, isLoading: true, errorCode: 0, showCharts: false, userName: this.state.tempUserName });
+
+    const port = process.env.SERVER_PORT??4000;
+    const host = process.env.SERVER_HOST??'localhost';
+    
+    axios.get(`http://${host}:${port}/getPublicKey`)
+      .then(async (results) => {
+        const pKey = results.data;
+        const key = new NodeRSA();
+        await key.importKey(pKey, 'public');
+        const enc = await key.encrypt(this.state.password, 'base64');
+        await axios.post(`http://${host}:${port}/scrape`, {user: this.state.tempUserName, password: enc});
+        //handle data from server
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally(() => {
+        this.setState({ isLoading: false });
+      })
 
   }
 
@@ -92,7 +113,7 @@ class App extends React.Component<any, any> {
           {
             !this.state.private &&
             <div>
-              <input type='text' className='inputBox' placeholder='User handle' onChange={this.handleInput} onKeyDown={this._handleKeyboardEvent}></input>
+              <input type='text' required className='inputBox' placeholder='User handle' onChange={this.handleInput} onKeyDown={this._handleKeyboardEvent}></input>
               <button className='goButton' onClick={this.submitUsername}>Go!</button>
             </div>
           }
@@ -100,9 +121,14 @@ class App extends React.Component<any, any> {
           {
             this.state.private &&
             <div>
-              <input type='text' className='inputBox' placeholder='User handle' onChange={this.handleInput} onKeyDown={this._handleKeyboardEvent}></input>
-              <input type='password' className='inputBox' placeholder='Password' onChange={this.handlePassword} onKeyDown={this._handleKeyboardEventPassword}></input>
-              <button className='goButton' onClick={this.submitUsernamePassword}>Go!</button>
+              <div>
+                <input type='text' required className='inputBox' placeholder='User handle' onChange={this.handleInput} onKeyDown={this._handleKeyboardEvent}></input>
+                <input type='password' required className='inputBox' placeholder='Password' onChange={this.handlePassword} onKeyDown={this._handleKeyboardEventPassword}></input>
+                <button className='goButton' onClick={this.submitUsernamePassword}>Go!</button>
+              </div>
+              <div className='disclaimer'>
+                Your passwords are end-to-end end encrypted using RSA algorithm.
+              </div>
             </div>
           }
 

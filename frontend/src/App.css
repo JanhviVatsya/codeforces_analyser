@@ -3,7 +3,6 @@
   padding-top: 40px;
   padding-bottom: auto;
   height: 100%;
-  /* width: 100%; */
   color: white;
 }
 
@@ -20,6 +19,11 @@
 
 .private:hover {
   background-color: rgba(125, 62, 213, 0.542);
+}
+
+.disclaimer {
+  padding-top: 20px;
+  color: gray;
 }
 
 .active {
