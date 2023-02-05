@@ -59,9 +59,10 @@ app.listen(port, () => {
     key = new NodeRSA({ b: 512 });
     publicKey = key.exportKey('public');
     privateKey = key.exportKey('private');
-    cacheAllData();
+    // cacheAllData();
 })
 
 cron.schedule('* * * * 1', () => {
+    cacheAllData();
     console.log('running a task once a week');
 });
