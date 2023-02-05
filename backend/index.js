@@ -1,27 +1,29 @@
 const express = require('express');
-const cors = require('cors')  
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const { cacheAllData, getProblems } = require('./utils/utils');
 const NodeRSA = require('node-rsa');
 const scrapeUserSubmissions = require('./puppeteer/utils');
+var cron = require('node-cron');
+
 
 const app = express();
 app.use(cors())
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 let publicKey;
 let privateKey;
 let key;
 
-app.post('/scrape', async(req, res, next) => {
+app.post('/scrape', async (req, res, next) => {
 
     const handle = req.body.user
     const password = key.decrypt(req.body.password, 'utf8');
 
     const problems = await scrapeUserSubmissions(handle, password);
 
-    if(problems === "Error"){
+    if (problems === "Error") {
         res.send("Error");
         next();
     }
@@ -29,8 +31,8 @@ app.post('/scrape', async(req, res, next) => {
     const obj = await getProblems(problems);
 
     let cleanedData = []
-    for(i of obj){
-        if(i){
+    for (i of obj) {
+        if (i) {
             cleanedData.push(JSON.parse(i))
         }
     }
@@ -38,7 +40,7 @@ app.post('/scrape', async(req, res, next) => {
     res.send(cleanedData);
 })
 
-app.get('/getPublicKey', async(req, res) => {    
+app.get('/getPublicKey', async (req, res) => {
     res.send(publicKey);
 })
 
@@ -48,14 +50,18 @@ app.get('/cache_data', (req, res) => {
 })
 
 app.get('/', async (req, res) => {
-   res.send('Caching and Scraping Server')
+    res.send('Caching and Scraping Server')
 })
 
-const port = process.env.SERVER_PORT??3010;
+const port = process.env.SERVER_PORT ?? 3010;
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`)
-    key = new NodeRSA({b: 512});
+    key = new NodeRSA({ b: 512 });
     publicKey = key.exportKey('public');
     privateKey = key.exportKey('private');
-    // cacheAllData();
+    cacheAllData();
 })
+
+cron.schedule('* * * * 1', () => {
+    console.log('running a task once a week');
+});
