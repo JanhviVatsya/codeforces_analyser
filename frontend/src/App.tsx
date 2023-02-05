@@ -59,7 +59,7 @@ class App extends React.Component<any, any> {
     this.setState({ ...this.state, isLoading: true, errorCode: 0, showCharts: false, userName: this.state.tempUserName });
 
     const port = process.env.SERVER_PORT??3010;
-    const host = '127.0.0.1';
+    const host = '172.27.16.170';
     
     axios.get(`http://${host}:${port}/getPublicKey`)
       .then(async (results) => {
