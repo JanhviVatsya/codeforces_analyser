@@ -3,7 +3,10 @@ const puppeteer = require('puppeteer')
 const scrapeUserSubmissions = async function (userName, password) {
     const browser = await puppeteer.launch({
         executablePath: '/usr/bin/google-chrome',
-        headless: true
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        ignoreHTTPSErrors: true,
+        dumpio: false
     });
     const page = await browser.newPage();
 
@@ -15,7 +18,14 @@ const scrapeUserSubmissions = async function (userName, password) {
     await page.click('.submit');
     await page.waitForNetworkIdle();
 
-    let pagination = await page.$$eval('.pagination li span', items => items[items.length - 1].innerText)
+    let pagination;
+
+    try {
+        pagination = await page.$$eval('.page-index', items => items[items.length - 1].getAttribute('pageindex'))
+    }
+    catch {
+        return "Error";
+    }
 
     let pages = Number(pagination);
 

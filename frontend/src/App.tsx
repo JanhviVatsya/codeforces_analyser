@@ -58,7 +58,7 @@ class App extends React.Component<any, any> {
   submitUsernamePassword = (): void => {
     this.setState({ ...this.state, isLoading: true, errorCode: 0, showCharts: false, userName: this.state.tempUserName });
 
-    const port = process.env.SERVER_PORT??4000;
+    const port = process.env.SERVER_PORT??3010;
     const host = process.env.SERVER_HOST??'localhost';
     
     axios.get(`http://${host}:${port}/getPublicKey`)
@@ -67,8 +67,17 @@ class App extends React.Component<any, any> {
         const key = new NodeRSA();
         await key.importKey(pKey, 'public');
         const enc = await key.encrypt(this.state.password, 'base64');
-        await axios.post(`http://${host}:${port}/scrape`, {user: this.state.tempUserName, password: enc});
-        //handle data from server
+        await axios.post(`http://${host}:${port}/scrape`, {user: this.state.tempUserName, password: enc})
+          .then((results) => {
+            if(results.data === "Error"){
+              this.setState({...this.state, errorCode: 1});
+            } else {
+              this.setState({ ...this.state, correctQuestions: results.data, showCharts: true });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          })
       })
       .catch((err) => {
         console.log(err)
@@ -140,7 +149,9 @@ class App extends React.Component<any, any> {
           </div>
         </div>
 
-        {this.state.errorCode !== 0 && <ErrorComponent code={this.state.errorCode}></ErrorComponent>}
+        {(this.state.errorCode !== 0 && this.state.errorCode !== 1) && <ErrorComponent code={this.state.errorCode}></ErrorComponent>}
+
+        {this.state.errorCode === 1 && <ErrorComponent code={"We ran into some issues, please check your credentials or try again later."}></ErrorComponent>}
 
         {this.state.isLoading && <Loading></Loading>}
 
