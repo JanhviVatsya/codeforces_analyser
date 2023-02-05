@@ -20,6 +20,7 @@ services:
       SERVER_PORT: 3010
       REDIS_URL: redis://redis:6379
       REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81x
+      SERVER_HOST: server
   redis:
     image: redis:latest
     environment:
