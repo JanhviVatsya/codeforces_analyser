@@ -12,8 +12,4 @@ EXPOSE 3000
 
 RUN export NODE_OPTIONS=--openssl-legacy-provider;
 
-RUN npm run build
-
-RUN npm install -g serve
-
-ENTRYPOINT ["serve", "-s", "build"]
+ENTRYPOINT [ "npm", "run", "start" ]
