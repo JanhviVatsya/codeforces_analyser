@@ -16,4 +16,4 @@ RUN npm run build
 
 RUN npm i -g serve
 
-ENTRYPOINT [ "serve", "-s", "dist" ]
+ENTRYPOINT [ "serve", "-s", "build" ]
