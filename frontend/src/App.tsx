@@ -136,7 +136,7 @@ class App extends React.Component<any, any> {
                 <button className='goButton' onClick={this.submitUsernamePassword}>Go!</button>
               </div>
               <div className='disclaimer'>
-                Your passwords are end-to-end end encrypted using RSA algorithm.
+                Your passwords are end-to-end encrypted using RSA algorithm.
               </div>
             </div>
           }
