@@ -9,8 +9,6 @@ services:
     environment:
       SERVER_HOST: server
       SERVER_PORT: 3010
-    volumes:
-      - ./frontend:/app
   server:
     build: ./backend
     restart: always
@@ -18,8 +16,6 @@ services:
       - '3010:3010'
     depends_on:
       - redis
-    volumes:
-      - ./backend:/server
     environment:
       SERVER_PORT: 3010
       REDIS_URL: redis://redis:6379
