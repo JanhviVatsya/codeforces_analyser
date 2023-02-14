@@ -33,6 +33,9 @@ function fetchAllProblems() {
 }
 
 module.exports.cacheAllData = async function() {
+
+    console.log('Caching data');
+
     const problems = await fetchAllProblems();
     
     for (let i of problems){

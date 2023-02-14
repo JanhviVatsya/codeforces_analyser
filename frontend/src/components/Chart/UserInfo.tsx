@@ -236,12 +236,12 @@ class ChartComponent extends React.Component<any, any> {
                     backgroundColor(context: any) {
                         const value = context.dataset.data[context.dataIndex].v;
                         const alpha = Math.max(0.05, Math.min(1, (value) / (maxR - minR)));
-                        return color('blue').alpha(alpha).rgbString();
+                        return color('green').alpha(alpha).rgbString();
                     },
                     borderColor(context: any) {
                         const value = context.dataset.data[context.dataIndex].v;
                         const alpha = Math.max(0.1, Math.min(1, (value) / (maxR - minR)));
-                        return color('darkblue').alpha(alpha).rgbString();
+                        return color('darkgreen').alpha(alpha).rgbString();
                     },
                     borderWidth: 1,
                 }

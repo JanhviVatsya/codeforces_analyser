@@ -16,7 +16,7 @@ let publicKey;
 let privateKey;
 let key;
 
-app.post('/scrape', async (req, res, next) => {
+app.post('/scrape', async (req, res) => {
 
     const handle = req.body.user
     const password = key.decrypt(req.body.password, 'utf8');
@@ -25,19 +25,18 @@ app.post('/scrape', async (req, res, next) => {
 
     if (problems === "Error") {
         res.send("Error");
-        next();
-    }
+    } else {
+        const obj = await getProblems(problems);
 
-    const obj = await getProblems(problems);
-
-    let cleanedData = []
-    for (i of obj) {
-        if (i) {
-            cleanedData.push(JSON.parse(i))
+        let cleanedData = []
+        for (i of obj) {
+            if (i) {
+                cleanedData.push(JSON.parse(i))
+            }
         }
-    }
 
-    res.send(cleanedData);
+        res.send(cleanedData);
+    }
 })
 
 app.get('/getPublicKey', async (req, res) => {
@@ -62,7 +61,7 @@ app.listen(port, () => {
     // cacheAllData();
 })
 
-cron.schedule('* * * * 1', () => {
+cron.schedule('0 0 * * *', () => {
     cacheAllData();
-    console.log('running a task once a week');
+    console.log('automatically caching data');
 });

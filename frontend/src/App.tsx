@@ -4,6 +4,7 @@ import './App.css';
 import ErrorComponent from './components/Error/Error';
 import Loading from './components/Loading/Loading';
 import UserInfo from './components/Chart/UserInfo';
+import config from './config';
 const NodeRSA = require('node-rsa');
 
 class App extends React.Component<any, any> {
@@ -58,8 +59,8 @@ class App extends React.Component<any, any> {
   submitUsernamePassword = (): void => {
     this.setState({ ...this.state, isLoading: true, errorCode: 0, showCharts: false, userName: this.state.tempUserName });
 
-    const port = process.env.SERVER_PORT??3010;
-    const host = '172.27.16.170';
+    const port = config.PORT;
+    const host = config.SERVER;
     
     axios.get(`http://${host}:${port}/getPublicKey`)
       .then(async (results) => {
