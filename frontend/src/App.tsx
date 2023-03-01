@@ -4,7 +4,7 @@ import './App.css';
 import ErrorComponent from './components/Error/Error';
 import Loading from './components/Loading/Loading';
 import UserInfo from './components/Chart/UserInfo';
-import config from './config';
+import config from '../config';
 const NodeRSA = require('node-rsa');
 
 class App extends React.Component<any, any> {
@@ -59,8 +59,8 @@ class App extends React.Component<any, any> {
   submitUsernamePassword = (): void => {
     this.setState({ ...this.state, isLoading: true, errorCode: 0, showCharts: false, userName: this.state.tempUserName });
 
-    const port = config.PORT;
-    const host = config.SERVER;
+    const port = config.SERVER_PORT;
+    const host = config.SERVER_HOST;
     
     axios.get(`http://${host}:${port}/getPublicKey`)
       .then(async (results) => {
@@ -115,7 +115,7 @@ class App extends React.Component<any, any> {
 
   render(): ReactNode {
     return (
-      <div className='main'>
+      <div className='container'>
         <div>
           <h1 className='banner'>Learn Intelligently</h1>
           <p className='description'>Use this tool to get a detailed analysis of your progress on Codeforces and use this knowledge to learn effectively by working on the topics that need the most attention.</p>

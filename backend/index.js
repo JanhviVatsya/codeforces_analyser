@@ -3,9 +3,9 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const { cacheAllData, getProblems } = require('./utils/utils');
 const NodeRSA = require('node-rsa');
-const scrapeUserSubmissions = require('./puppeteer/utils');
+const scrapeUserSubmissions = require('./utils/puppeteer/utils');
 var cron = require('node-cron');
-
+const config = require('./config');
 
 const app = express();
 app.use(cors())
@@ -52,13 +52,13 @@ app.get('/', async (req, res) => {
     res.send('Caching and Scraping Server')
 })
 
-const port = process.env.SERVER_PORT ?? 3010;
+const port = config.SERVER_PORT;
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`)
     key = new NodeRSA({ b: 512 });
     publicKey = key.exportKey('public');
     privateKey = key.exportKey('private');
-    // cacheAllData();
+    cacheAllData();
 })
 
 cron.schedule('0 0 * * *', () => {
