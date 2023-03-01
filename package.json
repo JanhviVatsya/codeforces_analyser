@@ -1,0 +1,20 @@
+{
+    "name": "CodeforcesProgressAnalyzer",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "build": "echo \"No build specified\" && exit 1",
+        "test": "echo \"No test specified\" && exit 1",
+        "start": "docker compose up"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Lawful2002/CodeforcesProgressAnalyzer.git"
+    },
+    "author": "Harshvardhan Singh",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Lawful2002/CodeforcesProgressAnalyzer/issues"
+    },
+    "homepage": "https://github.com/Lawful2002/CodeforcesProgressAnalyzer#readme"
+}
