@@ -314,7 +314,7 @@ class ChartComponent extends React.Component<any, any> {
         return (
             <div className="chart">
                 {/* TODO: Add color according to CF rating */}
-                <h1><a href={this.getUserLink}>{this.props.userName}</a></h1>
+                <h1><a href={this.getUserLink()}>{this.props.userName}</a></h1>
                 <h5>Problems Solved: {this.props.array.length}</h5>
                 {this.renderDifficultyVNumberChart()}
                 <div className="separator"></div>
