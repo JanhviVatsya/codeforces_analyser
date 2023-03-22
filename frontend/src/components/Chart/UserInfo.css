@@ -21,3 +21,9 @@ h3, h5 {
 .chartObject {
     color: black;
 }
+
+a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+ 
